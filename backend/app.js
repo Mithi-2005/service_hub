@@ -2,8 +2,9 @@ import express from 'express'
 import dotenv from 'dotenv'
 import path from 'path'
 import {fileURLToPath} from 'url'
-import authRouter from './routes/auth.route.js'
+import authRouter from './routes/auth.routes.js'
 import userRouter from './routes/user.routes.js'
+import postRouter from './routes/post.routes.js'
 import connectDB from './config/db.js'
 import cors from 'cors'
 
@@ -17,7 +18,7 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 app.use("/",authRouter);
-app.use("/",userRouter);
-
+app.use("/user",userRouter);
+app.use("/posts",postRouter)
 
 export default app
