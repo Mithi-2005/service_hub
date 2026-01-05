@@ -10,6 +10,7 @@ const userSchema = new mongoose.Schema(
       minlength: 3,
       maxlength: 25,
     },
+
     email: {
       type: String,
       required: true,
@@ -17,26 +18,49 @@ const userSchema = new mongoose.Schema(
       lowercase: true,
       trim: true,
     },
+
     password: {
       type: String,
       required: true,
       minlength: 8,
     },
+
     mobile_no: {
       type: String,
       required: true,
       unique: true,
       trim: true,
     },
+
     dob: {
       type: Date,
       required: true,
     },
+
     full_name: {
       type: String,
       required: true,
       trim: true,
     },
+
+    profilePic: {
+      type: String,
+      default: null,
+    },
+
+    followers: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "User",
+      },
+    ],
+
+    following: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "User",
+      },
+    ],
   },
   { timestamps: true }
 );

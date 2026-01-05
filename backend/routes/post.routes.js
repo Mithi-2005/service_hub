@@ -1,9 +1,9 @@
-import express from 'express'
-import { createPost, getFeed, toggleLike, addComment, getComments, getPostDetails, replytoComment, toggleRepost, deletePost } from '../controllers/post.controller.js'
-import { verifyToken } from '../middleware/auth.middleware.js'
-import upload from '../middleware/upload.middleware.js'
+import express from 'express';
+import { createPost, getFeed, toggleLike, addComment, getComments, getPostDetails, replytoComment, toggleRepost, deletePost } from '../controllers/post.controller.js';
+import { verifyToken } from '../middleware/auth.middleware.js';
+import upload from '../middleware/upload.middleware.js';
 
-const router = express.Router()
+const router = express.Router();
 
 router.post("/create", verifyToken, upload.single("media"), createPost);
 router.get("/feed", verifyToken, getFeed);

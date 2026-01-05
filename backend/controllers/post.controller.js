@@ -15,7 +15,6 @@ export const createPost = async (req, res) => {
     if (req.file) {
       const isVideo = req.file.mimetype.startsWith("video/");
       const type = isVideo ? "video" : "image";
-
       const uploadResult = await uploadCloudinary(
         req.file.buffer,
         "debate-dojo_posts",
@@ -318,3 +317,36 @@ export const deletePost = async(req, res) => {
     });
   }
 }
+
+export const getUserPosts = async(req, res) => {
+  try {
+    const username = req.params.username;
+
+    const posts = await Post.find({ username:username })
+                            .populate("author","username full_name profilePic")
+                            .sort({createdAt: -1})
+    
+    const formattedPosts = posts.map(post => ({
+      _id: post._id,
+      content: post.content,
+      image: post.image,
+      video: post.video,
+      author: post.author,
+      likesCount: post.likes.length,
+      commentsCount: post.comments.length,
+      repostsCount: post.reposts.length,
+      createdAt: post.createdAt,
+    }));
+
+    return res.status(200).json({
+      message: "User Posts Fetched Successfully",
+      posts: formattedPosts
+    });
+  } 
+  catch (error) {
+    console.log(`GET USER POSTS ERROR - ${error}`)
+    return res.status(500).json({ message: "Internal Server Error, Our best minds are working on it!" })
+  }
+}
+
+
